@@ -22,6 +22,50 @@
     }
   },
   {
+    "word": "桜",
+    "season": "spring",
+    "category": "植物",
+    "aliases": ["さくら"],
+    "visual": {
+      "type": "cherry-blossom",
+      "colors": ["#E9B7C2", "#F4DDE0"],
+      "elements": ["petals", "branch", "wind"]
+    }
+  },
+  {
+    "word": "春雨",
+    "season": "spring",
+    "category": "天文",
+    "aliases": [],
+    "visual": {
+      "type": "spring-rain",
+      "colors": ["#A8BDB5", "#D5DCCF"],
+      "elements": ["fine-rain", "water", "reflection"]
+    }
+  },
+  {
+    "word": "菜の花",
+    "season": "spring",
+    "category": "植物",
+    "aliases": [],
+    "visual": {
+      "type": "rapeseed",
+      "colors": ["#E8C94A", "#8A9B56"],
+      "elements": ["yellow-field", "stems", "sunlight"]
+    }
+  },
+  {
+    "word": "蝶",
+    "season": "spring",
+    "category": "動物",
+    "aliases": ["ちょう"],
+    "visual": {
+      "type": "butterfly",
+      "colors": ["#D8B7D8", "#E8D9B8"],
+      "elements": ["wings", "flight", "light"]
+    }
+  },
+  {
     "word": "蝉",
     "season": "summer",
     "category": "動物",
@@ -30,6 +74,39 @@
       "type": "cicada",
       "colors": ["#244B62", "#A6C7C4"],
       "elements": ["tree", "summer-light"]
+    }
+  },
+  {
+    "word": "夕立",
+    "season": "summer",
+    "category": "天文",
+    "aliases": [],
+    "visual": {
+      "type": "evening-shower",
+      "colors": ["#405A78", "#A7B9C8"],
+      "elements": ["dark-cloud", "heavy-rain", "light"]
+    }
+  },
+  {
+    "word": "蛍",
+    "season": "summer",
+    "category": "動物",
+    "aliases": ["ほたる"],
+    "visual": {
+      "type": "firefly",
+      "colors": ["#263D3A", "#D8D88A"],
+      "elements": ["glowing-points", "darkness", "river"]
+    }
+  },
+  {
+    "word": "青葉",
+    "season": "summer",
+    "category": "植物",
+    "aliases": [],
+    "visual": {
+      "type": "green-leaves",
+      "colors": ["#386B4A", "#A7BD78"],
+      "elements": ["leaves", "shade", "sunlight"]
     }
   },
   {
@@ -44,6 +121,50 @@
     }
   },
   {
+    "word": "秋風",
+    "season": "autumn",
+    "category": "天文",
+    "aliases": [],
+    "visual": {
+      "type": "autumn-wind",
+      "colors": ["#B68B70", "#D9C5A3"],
+      "elements": ["flowing-lines", "falling-leaves", "open-space"]
+    }
+  },
+  {
+    "word": "月",
+    "season": "autumn",
+    "category": "天文",
+    "aliases": ["名月"],
+    "visual": {
+      "type": "moon",
+      "colors": ["#34415B", "#E8D9A9"],
+      "elements": ["moonlight", "night-sky", "reflection"]
+    }
+  },
+  {
+    "word": "紅葉",
+    "season": "autumn",
+    "category": "植物",
+    "aliases": ["もみじ"],
+    "visual": {
+      "type": "autumn-leaves",
+      "colors": ["#A64232", "#D58A45"],
+      "elements": ["red-leaves", "branches", "falling-leaves"]
+    }
+  },
+  {
+    "word": "鈴虫",
+    "season": "autumn",
+    "category": "動物",
+    "aliases": [],
+    "visual": {
+      "type": "bell-cricket",
+      "colors": ["#454B3C", "#B8A77A"],
+      "elements": ["grass", "night", "sound-waves"]
+    }
+  },
+  {
     "word": "雪",
     "season": "winter",
     "category": "天文",
@@ -52,6 +173,50 @@
       "type": "snow",
       "colors": ["#E0E3DF", "#A9BACB"],
       "elements": ["snowfall", "layer", "mist"]
+    }
+  },
+  {
+    "word": "冬枯",
+    "season": "winter",
+    "category": "植物",
+    "aliases": ["冬枯る"],
+    "visual": {
+      "type": "withered",
+      "colors": ["#77766B", "#B2A78F"],
+      "elements": ["bare-branches", "dry-grass", "empty-space"]
+    }
+  },
+  {
+    "word": "氷",
+    "season": "winter",
+    "category": "生活",
+    "aliases": [],
+    "visual": {
+      "type": "ice",
+      "colors": ["#A9C5D5", "#E3EEF0"],
+      "elements": ["crystal", "transparency", "reflection"]
+    }
+  },
+  {
+    "word": "霜",
+    "season": "winter",
+    "category": "天文",
+    "aliases": [],
+    "visual": {
+      "type": "frost",
+      "colors": ["#C9D2D5", "#F0F0E8"],
+      "elements": ["white-pattern", "surface", "morning-light"]
+    }
+  },
+  {
+    "word": "木枯",
+    "season": "winter",
+    "category": "天文",
+    "aliases": ["木枯らし"],
+    "visual": {
+      "type": "cold-wind",
+      "colors": ["#596A7A", "#B3B9B5"],
+      "elements": ["strong-wind", "bare-tree", "leaves"]
     }
   }
 ]
