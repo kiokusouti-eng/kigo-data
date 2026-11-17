@@ -43,9 +43,30 @@ async function setup() {
 
   // GitHubから季語データを読み込む
   try {
-    const loadedKigo = await loadJSON(
-      "https://raw.githubusercontent.com/kiokusouti-eng/kigo-data/main/kigo.json"
-    );
+
+try {
+  const response = await fetch(
+    "https://raw.githubusercontent.com/kiokusouti-eng/kigo-data/main/kigo.json"
+  );
+
+  if (!response.ok) {
+    throw new Error("HTTPエラー: " + response.status);
+  }
+
+  const loadedKigo = await response.json();
+
+  if (!Array.isArray(loadedKigo)) {
+    throw new Error("季語データの形式が正しくありません");
+  }
+
+  seasonalWords = loadedKigo;
+  console.log("季語データ読み込み成功:", seasonalWords.length);
+
+} catch (error) {
+  console.error("季語データ読み込み失敗:", error);
+  seasonalWords = [];
+}
+
 
     if (!Array.isArray(loadedKigo)) {
       throw new Error("季語データの形式が正しくありません");
