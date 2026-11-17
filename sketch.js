@@ -42,7 +42,7 @@ function paint(hex, alpha = 255) {
 // --------------------------------
 
 async function setup() {
-  createCanvas(900, 700);
+  createCanvas(900, 800);
   pixelDensity(1);
 
   // GitHubから季語データを読み込む
