@@ -38,49 +38,55 @@ function paint(hex, alpha = 255) {
 // --------------------------------
 
 async function setup() {
+ 
+async function setup() {
   createCanvas(900, 700);
   pixelDensity(1);
 
   // GitHubから季語データを読み込む
   try {
+    const response = await fetch(
+      "https://raw.githubusercontent.com/kiokusouti-eng/kigo-data/main/kigo.json"
+    );
 
-try {
-  const response = await fetch(
-    "https://raw.githubusercontent.com/kiokusouti-eng/kigo-data/main/kigo.json"
-  );
+    if (!response.ok) {
+      throw new Error("HTTPエラー: " + response.status);
+    }
 
-  if (!response.ok) {
-    throw new Error("HTTPエラー: " + response.status);
-  }
+    seasonalWords = await response.json();
 
-  const loadedKigo = await response.json();
-console.log("データの型:", typeof loadedKigo);
-console.log("配列かどうか:", Array.isArray(loadedKigo));
-console.log("データの先頭:", JSON.stringify(loadedKigo).slice(0, 300));
-  if (!Array.isArray(loadedKigo)) {
-    throw new Error("季語データの形式が正しくありません");
-  }
-
-  seasonalWords = loadedKigo;
-  console.log("季語データ読み込み成功:", seasonalWords.length);
-
-} catch (error) {
-  console.error("季語データ読み込み失敗:", error);
-  seasonalWords = [];
-}
-
-
-    if (!Array.isArray(loadedKigo)) {
+    if (!Array.isArray(seasonalWords)) {
       throw new Error("季語データの形式が正しくありません");
     }
 
-    seasonalWords = loadedKigo;
     console.log("季語データ読み込み成功:", seasonalWords.length);
 
   } catch (error) {
     console.error("季語データ読み込み失敗:", error);
     seasonalWords = [];
   }
+
+  // 俳句入力欄
+  poemInput = createInput("古池や蛙飛び込む春の朝");
+  poemInput.position(30, 650);
+  poemInput.size(490);
+  poemInput.input(handleInput);
+
+  // 表示速度
+  speedSlider = createSlider(400, 1800, 900, 100);
+  speedSlider.position(555, 650);
+  speedSlider.size(130);
+
+  // 保存ボタン
+  saveButton = createButton("画像を保存");
+  saveButton.position(700, 650);
+  saveButton.mousePressed(() => saveCanvas("一句百景", "png"));
+
+  textFont("serif");
+  textAlign(CENTER, CENTER);
+
+  handleInput();
+}
 
   // 俳句入力欄
   poemInput = createInput("古池や蛙飛び込む春の朝");
