@@ -1,0 +1,33 @@
+
+[
+  {
+    "word": "春の朝",
+    "season": "spring",
+    "category": "時候",
+    "aliases": []
+  },
+  {
+    "word": "蛙",
+    "season": "spring",
+    "category": "動物",
+    "aliases": ["かわず"]
+  },
+  {
+    "word": "蝉",
+    "season": "summer",
+    "category": "動物",
+    "aliases": []
+  },
+  {
+    "word": "柿",
+    "season": "autumn",
+    "category": "植物",
+    "aliases": ["柿の実"]
+  },
+  {
+    "word": "雪",
+    "season": "winter",
+    "category": "天文",
+    "aliases": []
+  }
+]
