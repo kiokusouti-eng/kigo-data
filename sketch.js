@@ -54,7 +54,9 @@ try {
   }
 
   const loadedKigo = await response.json();
-
+console.log("データの型:", typeof loadedKigo);
+console.log("配列かどうか:", Array.isArray(loadedKigo));
+console.log("データの先頭:", JSON.stringify(loadedKigo).slice(0, 300));
   if (!Array.isArray(loadedKigo)) {
     throw new Error("季語データの形式が正しくありません");
   }
