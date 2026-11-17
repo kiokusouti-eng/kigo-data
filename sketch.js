@@ -37,8 +37,10 @@ function paint(hex, alpha = 255) {
 // 初期設定
 // --------------------------------
 
-async function setup() {
- 
+// --------------------------------
+// 初期設定
+// --------------------------------
+
 async function setup() {
   createCanvas(900, 700);
   pixelDensity(1);
@@ -87,29 +89,6 @@ async function setup() {
 
   handleInput();
 }
-
-  // 俳句入力欄
-  poemInput = createInput("古池や蛙飛び込む春の朝");
-  poemInput.position(30, 650);
-  poemInput.size(490);
-  poemInput.input(handleInput);
-
-  // 表示速度
-  speedSlider = createSlider(400, 1800, 900, 100);
-  speedSlider.position(555, 650);
-  speedSlider.size(130);
-
-  // 保存ボタン
-  saveButton = createButton("画像を保存");
-  saveButton.position(700, 650);
-  saveButton.mousePressed(() => saveCanvas("一句百景", "png"));
-
-  textFont("serif");
-  textAlign(CENTER, CENTER);
-
-  handleInput();
-}
-
 // --------------------------------
 // 入力処理
 // --------------------------------
