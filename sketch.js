@@ -72,7 +72,7 @@ async function setup() {
 
   // 保存ボタン
   saveButton = createButton("画像を保存");
-  saveButton.position(755, 650);
+  saveButton.position(700, 650);
   saveButton.mousePressed(() => saveCanvas("一句百景", "png"));
 
   textFont("serif");
@@ -121,28 +121,37 @@ function updateInputArtwork() {
 // 季語判定
 // --------------------------------
 
-function detectKigo() {
-  let found = [];
+
+function getMatchedKigoItems() {
+  const matches = [];
 
   for (const item of seasonalWords) {
-    const words = [item.word, ...(item.aliases || [])];
+    const words = [item.word, ...(item.aliases || [])]
+      .filter(Boolean)
+      .sort((a, b) => b.length - a.length);
 
-    for (const word of words) {
-      if (word && poem.includes(word)) {
-        found.push({
-          word,
-          season: item.season,
-          length: word.length
-        });
-      }
+    const matchedWord = words.find(word => poem.includes(word));
+
+    if (matchedWord) {
+      matches.push({
+        word: matchedWord,
+        season: item.season,
+        category: item.category,
+        visual: item.visual,
+        length: matchedWord.length
+      });
     }
   }
 
-  found.sort((a, b) => b.length - a.length);
+  return matches.sort((a, b) => b.length - a.length);
+}
 
-  if (found.length > 0) {
-    currentKigo = found[0].word;
-    currentSeason = found[0].season;
+function detectKigo() {
+  const matches = getMatchedKigoItems();
+
+  if (matches.length > 0) {
+    currentKigo = matches[0].word;
+    currentSeason = matches[0].season;
   } else {
     currentKigo = "";
     currentSeason = "unknown";
@@ -150,32 +159,19 @@ function detectKigo() {
 }
 
 function detectVisualElements() {
-  const elements = [];
-
-  for (const item of seasonalWords) {
-    const words = [item.word, ...(item.aliases || [])];
-
-    for (const word of words) {
-      if (word && poem.includes(word)) {
-        if (item.visual && item.visual.type) {
-          elements.push(item.visual.type);
-        }
-        break;
-      }
-    }
-  }
+  const elements = getMatchedKigoItems()
+    .filter(item => item.visual && item.visual.type)
+    .map(item => item.visual.type);
 
   for (const rule of visualRules) {
-    for (const word of rule.words) {
-      if (poem.includes(word)) {
-        elements.push(rule.type);
-        break;
-      }
+    if (rule.words.some(word => poem.includes(word))) {
+      elements.push(rule.type);
     }
   }
 
   return [...new Set(elements)];
 }
+
 
 // --------------------------------
 // 文字・乱数
@@ -265,22 +261,30 @@ function draw() {
 // 絵の描画領域
 // --------------------------------
 
+
 function drawArtwork() {
   drawArtworkBase();
 
-  if (currentKigo) {
-    let visual = detectVisualElements(currentKigo);
+  const visualTypes = detectVisualElements();
 
-    if (visual) {
-      if (visual.type === "morning") drawMorningScene();
-      if (visual.type === "frog") drawFrogScene();
-      if (visual.type === "cicada") drawCicadaScene();
-      if (visual.type === "persimmon") drawPersimmonScene();
-      if (visual.type === "snow") drawSnowScene();
-      if (visual.type === "bell") drawBellWaves();
+  const drawFunctions = {
+    morning: drawMorningScene,
+    frog: drawFrogScene,
+    cicada: drawCicadaScene,
+    persimmon: drawPersimmonScene,
+    snow: drawSnowScene,
+    bell: drawBellWaves
+  };
+
+  for (const type of visualTypes) {
+    if (drawFunctions[type]) {
+      drawFunctions[type]();
+    } else {
+      drawGenericSeasonalScene(type);
     }
   }
 }
+
 
 // --------------------------------
 // 抽象画のベース
@@ -913,7 +917,7 @@ function drawInformation() {
     "季節：" + (seasonNames[currentSeason] || "未判定") +
     "　季語：" + (currentKigo || "なし"),
     30,
-    65
+    30
   );
 
   // 日時
@@ -943,8 +947,113 @@ function drawInformation() {
   text(
     poemLength + "文字",
     870,
-    785
+    680
   );
+
+  pop();
+}
+
+function drawGenericSeasonalScene(type) {
+  const t = millis() / 1000;
+  const matched = getMatchedKigoItems()
+    .find(item => item.visual && item.visual.type === type);
+
+  const colors = matched?.visual?.colors || ["#B9B6A4", "#D4C5B2"];
+
+  randomSeed(sceneSeed + charCodeSum(type));
+
+  push();
+  noStroke();
+
+  switch (type) {
+    case "cherry-blossom":
+    case "butterfly":
+      for (let i = 0; i < 35; i++) {
+        fill(paint(colors[i % colors.length], 180));
+        const x = random(50, 800) + sin(t + i) * 12;
+        const y = random(80, 550) + cos(t + i) * 10;
+        ellipse(x, y, random(8, 22), random(5, 14));
+      }
+      break;
+
+    case "spring-rain":
+    case "evening-shower":
+      stroke(paint(colors[0], 150));
+      strokeWeight(2);
+      for (let i = 0; i < 100; i++) {
+        const x = random(0, 800);
+        const y = (random(height) + t * 70) % height;
+        line(x, y, x - 5, y + 18);
+      }
+      break;
+
+    case "rapeseed":
+    case "green-leaves":
+    case "autumn-leaves":
+    case "withered":
+      for (let i = 0; i < 55; i++) {
+        fill(paint(colors[i % colors.length], 170));
+        push();
+        translate(random(40, 800), random(80, 560));
+        rotate(random(-1, 1));
+        ellipse(0, 0, random(18, 65), random(7, 22));
+        pop();
+      }
+      break;
+
+    case "firefly":
+      for (let i = 0; i < 35; i++) {
+        const x = random(50, 800) + sin(t + i) * 12;
+        const y = random(80, 550) + cos(t * 0.7 + i) * 15;
+        fill(paint(colors[1] || "#D8D88A", random(100, 230)));
+        circle(x, y, random(3, 10));
+      }
+      break;
+
+    case "moon":
+      fill(paint(colors[1] || "#E8D9A9", 220));
+      circle(570, 180, 170);
+      fill(paint(colors[0], 100));
+      circle(600, 150, 155);
+      break;
+
+    case "bell-cricket":
+      stroke(paint(colors[1] || "#B8A77A", 150));
+      strokeWeight(2);
+      noFill();
+      for (let i = 0; i < 7; i++) {
+        const w = 70 + i * 40 + sin(t + i) * 8;
+        arc(350, 420, w, w * 0.5, PI, TWO_PI);
+      }
+      break;
+
+    case "ice":
+    case "frost":
+      stroke(paint(colors[0], 160));
+      strokeWeight(2);
+      for (let i = 0; i < 30; i++) {
+        const x = random(30, 800);
+        const y = random(50, 550);
+        line(x - 12, y - 12, x + 12, y + 12);
+        line(x - 12, y + 12, x + 12, y - 12);
+      }
+      break;
+
+    case "cold-wind":
+    case "autumn-wind":
+      noFill();
+      stroke(paint(colors[0], 140));
+      strokeWeight(2);
+      for (let i = 0; i < 18; i++) {
+        beginShape();
+        for (let x = 0; x <= 800; x += 30) {
+          const y = 100 + i * 25 + sin(x * 0.012 + t + i) * 25;
+          curveVertex(x, y);
+        }
+        endShape();
+      }
+      break;
+  }
 
   pop();
 }
